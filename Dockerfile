@@ -1,6 +1,15 @@
-FROM php:fpm-alpine3.9
+FROM php:7.4-fpm-alpine3.11
+
+ENV PHP_MAX_POST_SIZE 5m
+ENV PHP_ERROR_LOG stderr
+
+# Override with custom php settings
+COPY config/custom.ini $PHP_INI_DIR/conf.d/
 
 RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
+    touch "$PHP_INI_DIR/conf.d/custom.ini" && \
+    echo "post_max_size = ${PHP_MAX_POST_SIZE}" > "$PHP_INI_DIR/conf.d/custom.ini" && \
+    echo "error_log = ${PHP_ERROR_LOG}" > "$PHP_INI_DIR/conf.d/custom.ini" && \
     apk add -U --no-cache \
         git libmemcached-libs zlib libmemcached-dev zlib-dev cyrus-sasl-dev build-base autoconf \
         openssl-dev \
