@@ -22,13 +22,9 @@ RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini" && \
         gd-dev \
         libzip-dev \
         libjpeg-turbo-dev && \
-    docker-php-ext-configure gd \
-        --with-gd \
-        --with-freetype-dir=/usr/include/ \
-        --with-png-dir=/usr/include/ \
-        --with-jpeg-dir=/usr/include/ && \
-    docker-php-ext-configure zip --with-libzip && \
-    docker-php-ext-configure imap --with-imap --with-imap-ssl && \
+    docker-php-ext-configure gd --with-freetype --with-jpeg && \
+    docker-php-ext-configure zip && \
+    docker-php-ext-configure imap && \
     #curl iconv session
     #docker-php-ext-install pdo_mysql pdo_sqlite mysqli mcrypt gd exif intl xsl json soap dom zip opcache && \
     docker-php-ext-install iconv imap pdo_mysql pdo_sqlite mysqli gd exif intl xsl json soap dom zip opcache && \
